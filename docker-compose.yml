@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+# POSTGRES*****************************************
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    expose:
+    - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=database
+    restart: unless-stopped
+    networks:
+      - common-net
+# PGADMIN*****************************************
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    networks:
+      - common-net
+
+networks:
+  common-net:
+    driver: bridge
